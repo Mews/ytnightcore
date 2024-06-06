@@ -1,4 +1,4 @@
-from gui import RootWindow
+from gui.main import RootWindow
 from settings import theme
 
 root = RootWindow(themename=theme, title="Youtube Nightcore")
