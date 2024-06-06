@@ -2,6 +2,7 @@ import ttkbootstrap as ttk
 from ttkbootstrap.constants import *
 import sys
 from consoleio import ConsoleIO
+from datetime import datetime
 
 class LogWindow(ttk.Frame):
     def __init__(self, *args, **kwargs):
@@ -19,6 +20,8 @@ class LogWindow(ttk.Frame):
 
         self.text.delete("1.0", END)
 
-        self.text.insert(INSERT, self.console_io.getvalue())
+        current_time = datetime.now().strftime("%H:%M:%S")
+
+        self.text.insert(INSERT, "( " + current_time + " ) " + self.console_io.getvalue())
 
         self.text.config(state=DISABLED)
