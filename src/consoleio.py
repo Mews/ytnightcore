@@ -5,8 +5,6 @@ class ConsoleIO(StringIO):
     This is a StringIO that calls the function passed as callback whenever its content changes
 
     It also has a method to read a line and remove it which is popline
-
-    It also has a method to read a line and remove it which is popline
     """
 
     def __init__(self, callback, *args, **kwargs):
