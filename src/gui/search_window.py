@@ -1,3 +1,5 @@
+from video import Video
+
 import ttkbootstrap as ttk
 from ttkbootstrap.constants import *
 from ttkbootstrap.scrolled import ScrolledFrame
@@ -38,3 +40,11 @@ class QueryEntry(ttk.Entry):
 class SearchResults(ScrolledFrame):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+
+
+
+class VideoFrame(ttk.Frame):
+    def __init__(self, video:Video, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.video = video

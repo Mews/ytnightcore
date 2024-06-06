@@ -40,10 +40,3 @@ class Video:
                 self.thumbnail = c_thumbnail
 
         self.views = raw_data["viewCount"]["short"]
-
-
-class VideoFrame(ttk.Frame):
-    def __init__(self, video:Video, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-
-        self.video = video
