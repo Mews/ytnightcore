@@ -1,6 +1,7 @@
-from gui import MainUi
+from gui import RootWindow
+from settings import theme
 
-root = MainUi(themename="darkly", title="Youtube Nightcore")
+root = RootWindow(themename=theme, title="Youtube Nightcore")
 
 root.geometry("1100x850")
 
