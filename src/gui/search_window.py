@@ -157,7 +157,7 @@ class VideoFrame(ttk.Frame):
         self.title_label = WrapLabel(master=self, text=self.video.title, font=("", 13), bootstyle=DEFAULT)
         self.title_label.grid(row=0, column=1, sticky=W+S)
 
-        self.views_label = WrapLabel(master=self, text=self.video.views, font=("", 10), bootstyle=DEFAULT)
+        self.views_label = WrapLabel(master=self, text=self.video.author + " ⋅ " + self.video.views, font=("", 10), bootstyle=DEFAULT)
         self.views_label.grid(row=1, column=1, sticky=W+N)
 
         self.desc_label = WrapLabel(master=self, text=self.video.description, font=("", 10), bootstyle=DEFAULT)
