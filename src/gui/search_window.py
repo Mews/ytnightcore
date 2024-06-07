@@ -12,7 +12,7 @@ from ttkbootstrap.scrolled import ScrolledFrame
 from tkfontawesome import icon_to_image
 
 from PIL import ImageTk
-from multiprocessing.pool import ThreadPool
+from concurrent.futures import ThreadPoolExecutor
 
 
 class SearchWindow(ttk.Frame):
@@ -123,7 +123,9 @@ class SearchResults(ScrolledFrame):
 
         # Get the thumbnail image for every video
         log("Search", "Fetching video thumbnails")
-        ThreadPool().map(lambda video: video.get_thumbnail_image(edge_radius=15), videos)
+        with ThreadPoolExecutor() as thread_pool:
+            for video in videos:
+                thread_pool.submit(lambda video: video.get_thumbnail_image(edge_radius=15), video)
 
         for video in videos:
             video_frame = VideoFrame(master=self, video=video, bootstyle=DEFAULT)
