@@ -1,7 +1,4 @@
 from thumbnail import Thumbnail
-import ttkbootstrap as ttk
-from ttkbootstrap.constants import *
-
 class Video:
     def __init__(self, raw_data):
         self.raw_data = raw_data
@@ -40,3 +37,11 @@ class Video:
                 self.thumbnail = c_thumbnail
 
         self.views = raw_data["viewCount"]["short"]
+
+        self.thumbnail_image = None
+    
+    def get_thumbnail_image(self, edge_radius=0):
+        img = self.thumbnail.get_image(edge_radius=edge_radius)
+
+        self.thumbnail_image = img
+        return img
