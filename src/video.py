@@ -10,6 +10,12 @@ class Video:
 
         self.title = raw_data["title"]
 
+        if raw_data["descriptionSnippet"] == None:
+            self.description = ""
+
+        else:
+            self.description = ''.join(text_part["text"] for text_part in raw_data["descriptionSnippet"])
+
         self.author = raw_data["channel"]["name"]
         
         #Get highest resolution author pfp
