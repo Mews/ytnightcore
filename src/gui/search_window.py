@@ -214,21 +214,22 @@ class VideoFrame(ttk.Frame):
 
     def on_hover_on(self, event):
         for widget in self.winfo_children():
-            try:
+            if not isinstance(widget, ttk.Progressbar):
                 widget.config(bootstyle=LIGHT+INVERSE)
-            except AttributeError:
-                widget.config(bootstyle=LIGHT)
 
         self.config(bootstyle=LIGHT)
     
     def on_hover_off(self, event):
         for widget in self.winfo_children():
-            widget.config(bootstyle=self.kwargs["bootstyle"])
+            if not isinstance(widget, ttk.Progressbar):
+                widget.config(bootstyle=self.kwargs["bootstyle"])
 
         self.config(bootstyle=self.kwargs["bootstyle"])
 
     def on_click(self, event):
         self.download_progress_bar.grid(row=0, column=0, columnspan=2, padx=5, sticky=W+E, pady=(5,0))
 
-        Thread(target=lambda:[youtube.download_yt_mp3(self.video.url, "temp/song", progress_hook=self.progress_hook),
-                              self.download_progress_bar.grid_forget()]).start()
+        Thread(target=lambda:[log("Download", "Downloading "+self.video.title + ":"),
+                              youtube.download_yt_mp3(self.video.url, "temp/song", progress_hook=self.progress_hook),
+                              self.download_progress_bar.grid_forget(),
+                              log("Download", "Finished downloading "+self.video.title)]).start()
