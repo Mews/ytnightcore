@@ -13,6 +13,7 @@ from tkfontawesome import icon_to_image
 
 from PIL import ImageTk
 from concurrent.futures import ThreadPoolExecutor
+from threading import Thread
 
 
 class SearchWindow(ttk.Frame):
@@ -150,27 +151,73 @@ class VideoFrame(ttk.Frame):
 
         self.grid_columnconfigure(1, weight=1)
 
+        self.download_progress_bar = ttk.Progressbar(master=self)
+
         self.thumb = ImageTk.PhotoImage(self.video.thumbnail_image)
         self.thumb_panel = ttk.Label(master=self, image=self.thumb)
-        self.thumb_panel.grid(row=0, column=0, rowspan=3, padx=5, pady=5)
+        self.thumb_panel.grid(row=1, column=0, rowspan=3, padx=5, pady=5)
 
         self.title_label = WrapLabel(master=self, text=self.video.title, font=("", 13), bootstyle=DEFAULT)
-        self.title_label.grid(row=0, column=1, sticky=W+S)
+        self.title_label.grid(row=1, column=1, sticky=W+S)
 
         self.views_label = WrapLabel(master=self, text=self.video.author + " ⋅ " + self.video.views, font=("", 10), bootstyle=DEFAULT)
-        self.views_label.grid(row=1, column=1, sticky=W+N)
+        self.views_label.grid(row=2, column=1, sticky=W+N)
 
         self.desc_label = WrapLabel(master=self, text=self.video.description, font=("", 10), bootstyle=DEFAULT)
-        self.desc_label.grid(row=2, column=1, sticky=W+N)
+        self.desc_label.grid(row=3, column=1, sticky=W+N)
 
         bind_children(self, "<Button-1>", self.on_click)
         self.bind("<Enter>", self.on_hover_on)
         self.bind("<Leave>", self.on_hover_off)
 
+    
+    def progress_hook(self, info):
+        # https://github.com/yt-dlp/yt-dlp/blob/db50f19d76c6870a5a13d0cab9287d684fd7449a/yt_dlp/YoutubeDL.py#L364
+
+        status = info["status"]
+
+        if status == "downloading":
+            self.download_progress_bar.config(mode=DETERMINATE, bootstyle=SUCCESS)
+            # Stop auto increasing in case it previously failed to calculate progress
+            self.download_progress_bar.stop()
+
+            downloaded_bytes = info["downloaded_bytes"]
+            total_bytes = info["total_bytes"]
+
+            if total_bytes == None:
+                total_bytes = info["total_bytes_estimate"]
+
+                if total_bytes == None:
+                    # If cant determite total size, set progress bar to indeterminate
+
+                    self.download_progress_bar.config(mode=INDETERMINATE)
+                    self.download_progress_bar.start()
+                    return
+
+            progress = (downloaded_bytes / total_bytes) * 100
+
+            self.download_progress_bar.config(value=progress)
         
+        if status == "finished":
+            self.download_progress_bar.config(mode=DETERMINATE, bootstyle=SUCCESS)
+            # Stop auto increasing in case it previously failed to calculate progress
+            self.download_progress_bar.stop()
+
+            self.download_progress_bar.config(value=100)
+        
+        if status == "error":
+            self.download_progress_bar.config(mode=DETERMINATE, bootstyle=DANGER)
+            # Stop auto increasing in case it previously failed to calculate progress
+            self.download_progress_bar.stop()
+
+
+
     def on_hover_on(self, event):
         for widget in self.winfo_children():
-            widget.config(bootstyle=LIGHT+INVERSE)
+            try:
+                widget.config(bootstyle=LIGHT+INVERSE)
+            except AttributeError:
+                widget.config(bootstyle=LIGHT)
 
         self.config(bootstyle=LIGHT)
     
@@ -179,7 +226,9 @@ class VideoFrame(ttk.Frame):
             widget.config(bootstyle=self.kwargs["bootstyle"])
 
         self.config(bootstyle=self.kwargs["bootstyle"])
-    
+
     def on_click(self, event):
-        return
-        print(self.video.title, self.video.url)
+        self.download_progress_bar.grid(row=0, column=0, columnspan=2, padx=5, sticky=W+E, pady=(5,0))
+
+        Thread(target=lambda:[youtube.download_yt_mp3(self.video.url, "temp/song", progress_hook=self.progress_hook),
+                              self.download_progress_bar.grid_forget()]).start()
