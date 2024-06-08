@@ -210,6 +210,9 @@ class VideoFrame(ttk.Frame):
             # Stop auto increasing in case it previously failed to calculate progress
             self.download_progress_bar.stop()
 
+            # If the progress bar is bellow 15% set it to 15%
+            self.download_progress_bar.config(value=max(25, self.download_progress_bar.cget("value")))
+
 
 
     def on_hover_on(self, event):
@@ -227,6 +230,7 @@ class VideoFrame(ttk.Frame):
         self.config(bootstyle=self.kwargs["bootstyle"])
 
     def on_click(self, event):
+        self.download_progress_bar.config(value=0)
         self.download_progress_bar.grid(row=0, column=0, columnspan=2, padx=5, sticky=W+E, pady=(5,0))
 
         Thread(target=lambda:[log("Download", "Downloading "+self.video.title + ":"),
