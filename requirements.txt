@@ -1,0 +1,7 @@
+just_playback==0.1.8
+Pillow==10.3.0
+soundfile==0.12.1
+tkfontawesome==0.2.0
+ttkbootstrap==1.10.1
+youtube_search_python==1.6.6
+yt_dlp==2024.5.27
