@@ -1,2 +1,8 @@
 **/__pycache__
 temp/**
+build
+dist
+_internal
+*.spec
+*.exe
+*.rar
