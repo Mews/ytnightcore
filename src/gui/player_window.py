@@ -104,6 +104,7 @@ class PlaybackController(ttk.Frame):
     def reload_audio(self):
         self.playback.load_file("temp/out.wav")
         self.playback.play()
+        self.playback.loop_at_end(True)
 
         if self.paused:
             self.pause()
