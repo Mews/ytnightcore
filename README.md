@@ -15,11 +15,15 @@ Then simply open the `ytnightcore.exe` file.
 # Libraries used
 [simpleaudiostretch](https://github.com/Mews/simpleaudiostretch) - To change the speed of the songs
 
+[just_playback](https://github.com/cheofusi/just_playback) - To play the songs
+
 [youtube-search-python](https://github.com/alexmercerind/youtube-search-python) - For searching for youtube videos
 
 [yt-dlp](https://github.com/yt-dlp/yt-dlp) - To download the audio from youtube videos
 
 [ttkbootstrap](https://github.com/israel-dryer/ttkbootstrap/) - To make the gui
+
+[tkfontawesome](https://github.com/israel-dryer/TkFontAwesome) - To use fontawesome icons on the app
 
 
 # Support
