@@ -236,4 +236,5 @@ class VideoFrame(ttk.Frame):
         Thread(target=lambda:[log("Download", "Downloading "+self.video.title + ":"),
                               youtube.download_yt_mp3(self.video.url, "temp/song", progress_hook=self.progress_hook),
                               self.download_progress_bar.grid_forget(),
-                              log("Download", "Finished downloading "+self.video.title)]).start()
+                              log("Download", "Finished downloading "+self.video.title),
+                              self.winfo_toplevel().mainui.player_window.playback_controller.load_audio()]).start()
