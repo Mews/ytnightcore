@@ -9,7 +9,7 @@ from log import log
 import ttkbootstrap as ttk
 from ttkbootstrap.constants import *
 from ttkbootstrap.scrolled import ScrolledFrame
-from tkfontawesome import icon_to_image
+from tkfontawesome.tkfontawesome import icon_to_image
 
 from PIL import ImageTk
 from concurrent.futures import ThreadPoolExecutor

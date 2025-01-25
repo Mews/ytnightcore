@@ -6,7 +6,7 @@ from log import log
 
 import ttkbootstrap as ttk
 from ttkbootstrap.constants import *
-from tkfontawesome import icon_to_image
+from tkfontawesome.tkfontawesome import icon_to_image
 
 class RootWindow(ttk.Window):
     def __init__(self, *args, **kwargs):
